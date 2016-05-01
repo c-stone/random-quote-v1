@@ -2,7 +2,7 @@
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
 
 function getRandomQuote() {
-	var quoteArray = [{ 
+	var quoteArray = [{
 										quote: "When Students cheat on exams it's because our School System values grades more than Students value learning.", 
 										source: "Neil deGrasse Tyson", 
 										citation: "Twitter", 
