@@ -65,7 +65,6 @@ function printQuote() {
 	if ( !quoteArray.length ) {
 		quoteArray = usedQuotes;
 		usedQuotes = [];
-		console.log(quoteArray, usedQuotes);
 	}
 
 	var quoteString= ""; //create a string
