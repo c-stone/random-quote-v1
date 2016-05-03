@@ -40,21 +40,27 @@ var quoteArray = [{
 var usedQuotes = [];
 
 function getRandomQuote(array) {
-	//select a random number, not larger than length of array
-	var maxNumber = array.length;
+	var maxNumber = array.length; 	//select a random number, not larger than length of array
 	var randomSelection = Math.floor((Math.random() * maxNumber));
-	//return a random quote object based on randomSelection
-	return [array[randomSelection], randomSelection]
+	return [array[randomSelection], randomSelection] 	//return a random quote object based on randomSelection
+}
+
+function getRandomColor() {
+	//randomly generate numbers between 0 and 225 for use with rgb CSS
+	var r = Math.floor((Math.random() * 226)),
+			g = 225, //keeping this consistent for a similar feeling color each time
+			b = Math.floor((Math.random() * 226)),
+			// combine the random numbers to create a complete rgb color code
+			color = "rgb(" + r + "," + g + "," + b + ")";
+	return color
 }
 
 function printQuote() {
 	//get a random quote, and the index of quoteArray used
 	var quoteObject = getRandomQuote(quoteArray);
-	//add the quote object used to an empty array
-	usedQuotes.push(quoteObject[0]);
-	//remove the quote object used from the quoteArray
-	quoteArray.splice(quoteObject[1], 1);
-	
+	usedQuotes.push(quoteObject[0]); //add the quote object used to an empty array
+	quoteArray.splice(quoteObject[1], 1); //remove the quote object used from the quoteArray
+
 	//if the quoteArray is empty, refill it with usedQuote. clear usedQuotes array.
 	if ( !quoteArray.length ) {
 		quoteArray = usedQuotes;
@@ -62,19 +68,19 @@ function printQuote() {
 		console.log(quoteArray, usedQuotes);
 	}
 
-	//create a string
-	var quoteString= "";
+	var quoteString= ""; //create a string
 	//concatenate strings to create HTML template using quote object
 	quoteString += '<p class="quote">' + quoteObject[0].quote + '</p>' +
 								 '<p class="source">' + quoteObject[0].source;
 	//optionally add year and/or citation if they are present
 	if ( quoteObject[0].citation ) { quoteString += '<span class="citation">' + quoteObject[0].citation + '</span>' }
 	if ( quoteObject[0].year ) { quoteString += '<span class="year">' + quoteObject[0].year + '</span>' }
-	//complete the html string
-	quoteString += '</p>'
-	//add completed html template string to page
-	document.getElementById('quote-box').innerHTML = quoteString
+	quoteString += '</p>' //complete the html string
+	
+	document.getElementById('quote-box').innerHTML = quoteString //add completed html template string to page
+	document.getElementById("random-color").style.background = getRandomColor();
 }
 
-//call printQuote to add a random quote on page load
-printQuote();
+
+printQuote(); //call printQuote to add a random quote on page load
+window.setInterval(printQuote, 30000); //call printQuote every 30 seconds
