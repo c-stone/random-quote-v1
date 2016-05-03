@@ -1,8 +1,7 @@
 //Add click event listened to #loadQuote button, calls printQuote
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
 
-function getRandomQuote() {
-	var quoteArray = [{
+var quoteArray = [{
 										quote: "When Students cheat on exams it's because our School System values grades more than Students value learning.", 
 										source: "Neil deGrasse Tyson", 
 										citation: "Twitter", 
@@ -38,28 +37,41 @@ function getRandomQuote() {
 										citation: "Freakonomics Podcast", 
 										year: "2015"
 									}];
-	//select random number, not larger than length of array
-	var maxNumber = quoteArray.length
+var usedQuotes = [];
+
+function getRandomQuote(array) {
+	//select a random number, not larger than length of array
+	var maxNumber = array.length;
 	var randomSelection = Math.floor((Math.random() * maxNumber));
 	//return a random quote object based on randomSelection
-	return quoteArray[randomSelection]
+	return [array[randomSelection], randomSelection]
 }
 
 function printQuote() {
-	//get a random quote
-	var randomQuote = getRandomQuote();
+	//get a random quote, and the index of quoteArray used
+	var quoteObject = getRandomQuote(quoteArray);
+	//add the quote object used to an empty array
+	usedQuotes.push(quoteObject[0]);
+	//remove the quote object used from the quoteArray
+	quoteArray.splice(quoteObject[1], 1);
+	
+	//if the quoteArray is empty, refill it with usedQuote. clear usedQuotes array.
+	if ( !quoteArray.length ) {
+		quoteArray = usedQuotes;
+		usedQuotes = [];
+		console.log(quoteArray, usedQuotes);
+	}
+
 	//create a string
 	var quoteString= "";
-
 	//concatenate strings to create HTML template using quote object
-	quoteString += '<p class="quote">' + randomQuote.quote + '</p>' +
-								 '<p class="source">' + randomQuote.source;
+	quoteString += '<p class="quote">' + quoteObject[0].quote + '</p>' +
+								 '<p class="source">' + quoteObject[0].source;
 	//optionally add year and/or citation if they are present
-	if ( randomQuote.citation ) { quoteString += '<span class="citation">' + randomQuote.citation + '</span>' }
-	if ( randomQuote.year ) { quoteString += '<span class="year">' + randomQuote.year + '</span>' }
+	if ( quoteObject[0].citation ) { quoteString += '<span class="citation">' + quoteObject[0].citation + '</span>' }
+	if ( quoteObject[0].year ) { quoteString += '<span class="year">' + quoteObject[0].year + '</span>' }
 	//complete the html string
 	quoteString += '</p>'
-	
 	//add completed html template string to page
 	document.getElementById('quote-box').innerHTML = quoteString
 }
