@@ -1,5 +1,5 @@
-//Add click event listened to #loadQuote button, calls printQuote
-document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+document.getElementById('loadQuote').addEventListener("click", printQuote, false); //Add event listened to #loadQuote button, calls printQuote
+document.getElementById('loadQuote').addEventListener("click", repeatPrintQuote, false); // once the user clicks, start swapping the quote every 30s
 
 var quoteArray = [{	quote: "When Students cheat on exams it's because our School System values grades more than Students value learning.", 
 										source: "Neil deGrasse Tyson", 
@@ -47,17 +47,17 @@ var usedQuotes = [];
 function getRandomQuote(array) {
 	var maxNumber = array.length; 	//select a random number, not larger than length of array
 	var randomSelection = Math.floor((Math.random() * maxNumber));
-	return [array[randomSelection], randomSelection] 	//return a random quote object based on randomSelection
+	return [array[randomSelection], randomSelection]; 	//return a random quote object based on randomSelection
 }
 
 function getRandomColor() {
 	//randomly generate numbers between 0 and 225 for use with rgb CSS
-	var r = Math.floor((Math.random() * 226)),
-			g = 225, //keeping this consistent for a similar feeling color each time
-			b = Math.floor((Math.random() * 226)),
+	var r = Math.floor((Math.random() * 256)),
+			g = 255, //keeping this consistent for a similar feeling color each time
+			b = Math.floor((Math.random() * 256)),
 			// combine the random numbers to create a complete rgb color code
 			color = "rgb(" + r + "," + g + "," + b + ")";
-	return color
+	return color;
 }
 
 function printQuote() {
@@ -77,14 +77,16 @@ function printQuote() {
 	quoteString += '<p class="quote">' + quoteObject[0].quote + '</p>' +
 								 '<p class="source">' + quoteObject[0].source;
 	//optionally add year and/or citation if they are present
-	if ( quoteObject[0].citation ) { quoteString += '<span class="citation">' + quoteObject[0].citation + '</span>' }
-	if ( quoteObject[0].year ) { quoteString += '<span class="year">' + quoteObject[0].year + '</span>' }
-	quoteString += '</p>' //complete the html string
+	if ( quoteObject[0].citation ) { quoteString += '<span class="citation">' + quoteObject[0].citation + '</span>'; }
+	if ( quoteObject[0].year ) { quoteString += '<span class="year">' + quoteObject[0].year + '</span>'; }
+	quoteString += '</p>'; //complete the html string
 	
-	document.getElementById('quote-box').innerHTML = quoteString //add completed html template string to page
+	document.getElementById('quote-box').innerHTML = quoteString; //add completed html template string to page
 	document.getElementById("random-color").style.background = getRandomColor();
 }
 
+function repeatPrintQuote() {
+	window.setInterval(printQuote, 30000);
+}
 
 printQuote(); //call printQuote to add a random quote on page load
-window.setInterval(printQuote, 30000); //call printQuote every 30 seconds
